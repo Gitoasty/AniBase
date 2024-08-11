@@ -1,0 +1,440 @@
+#:import Button kivy.uix.button.Button
+
+WindowManager:
+    MainWindow:
+    anime:
+    studio:
+    years:
+    genre:
+    yearly:
+
+<GridLayout>:
+    spacing: 10
+
+
+
+<Label>:
+    canvas.before:
+        Color:
+            rgba: 0.627, 0.125, 0.941, 0.7
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Button>:
+    background_color: (1, 0.412, 0.706, 0.7)
+
+<MainWindow>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'menu.jpg'
+    name: "menu"
+
+    GridLayout:
+        cols: 1
+        size_hint: 0.3, 1
+
+
+        Button:
+            text: "Anime"
+            on_release:
+                root.table_a()
+                app.root.current = "anime"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Studio"
+            on_release:
+                root.table_s()
+                app.root.current = "studio"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Godine"
+            on_release:
+                root.table_y()
+                app.root.current = "years"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Žanrovi"
+            on_release:
+                root.table_g()
+                app.root.current = "genre"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Po godinama"
+            on_release:
+                app.root.current = "yearly"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Exit"
+            on_release:
+                app.stop()
+                root.closure()
+
+<anime>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'anime.jpg'
+    name: "anime"
+
+
+    GridLayout:
+        cols: 2
+
+        BoxLayout:
+            id: Scroll
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            on_kv_post: root.lily(Scroll, ime, og, studio, genre, godina)
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            GridLayout:
+                cols: 2
+                rows: 5
+                padding: [10, 0, 10, 0]
+
+                Label:
+                    text: "Ime"
+
+                TextInput:
+                    id: ime
+
+                Label:
+                    text: "Original"
+
+                TextInput:
+                    id: og
+
+                Label:
+                    text: "Studio"
+
+                TextInput:
+                    id: studio
+
+                Label:
+                    text: "Žanr"
+
+                TextInput:
+                    id: genre
+
+                Label:
+                    text: "Godina"
+
+                TextInput:
+                    id: godina
+
+            GridLayout:
+                cols: 4
+                rows: 1
+                padding: [10, 100, 10, 100]
+
+                Button:
+                    text: "Novi"
+                    on_release:
+                        root.new([ime.text, og.text, studio.text, genre.text, godina.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, ime, og, studio, genre, godina)
+
+
+
+                Button:
+                    text: "Spremi"
+                    on_release:
+                        root.edit([ime.text, og.text, studio.text, genre.text, godina.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, ime, og, studio, genre, godina)
+
+
+                Button:
+                    text: "Obriši"
+                    on_release:
+                        root.deletion()
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, ime, og, studio, genre, godina)
+
+
+                Button:
+                    text: "Povratak"
+                    on_release:
+                        app.root.current = "menu"
+                        root.manager.transition.direction = "right"
+
+
+<studio>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'studio.jpg'
+    name: "studio"
+
+    GridLayout:
+        cols: 2
+
+        BoxLayout:
+            id: Scroll
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            on_kv_post:
+                Scroll.clear_widgets()
+                root.lily(Scroll, studio, godina)
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            GridLayout:
+                cols: 2
+                rows: 3
+
+                Label:
+                    text: "Studio"
+
+                TextInput:
+                    id: studio
+
+                Label:
+                    text: "Godina osnivanja"
+
+                TextInput:
+                    id: godina
+
+            GridLayout:
+                cols: 4
+                rows: 1
+                padding: [10, 100, 10, 100]
+
+                Button:
+                    text: "Novi"
+                    on_release:
+                        root.new([studio.text, godina.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, studio, godina)
+
+
+                Button:
+                    text: "Spremi"
+                    on_release:
+                        root.edit([studio.text, godina.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, studio, godina)
+
+
+                Button:
+                    text: "Obriši"
+                    on_release:
+                        root.deletion()
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, studio, godina)
+
+
+                Button:
+                    text: "Povratak"
+                    on_release:
+                        app.root.current = "menu"
+                        root.manager.transition.direction = "right"
+
+<years>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'year.jpg'
+    name: "years"
+
+    GridLayout:
+        cols: 2
+
+        BoxLayout:
+            id: Scroll
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            on_kv_post: root.lily(Scroll, godina)
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            GridLayout:
+                cols: 2
+                rows: 1
+
+                Label:
+                    text: "Godina"
+
+                TextInput:
+                    id: godina
+
+            GridLayout:
+                cols: 3
+                rows: 1
+                padding: [10, 100, 10, 100]
+
+                Button:
+                    text: "Novi"
+                    on_release:
+                        root.new([godina.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, godina)
+
+                Button:
+                    text: "Obriši"
+                    on_release:
+                        root.deletion()
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, godina)
+
+
+                Button:
+                    text: "Povratak"
+                    on_release:
+                        app.root.current = "menu"
+                        root.manager.transition.direction = "right"
+
+<genre>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'genre.jpg'
+    name: "genre"
+
+    GridLayout:
+        cols: 2
+
+        BoxLayout:
+            id: Scroll
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            on_kv_post: root.lily(Scroll, genre)
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            GridLayout:
+                cols: 2
+                rows: 1
+
+                Label:
+                    text: "Žanr"
+
+                TextInput:
+                    id: genre
+
+            GridLayout:
+                cols: 3
+                rows: 1
+                padding: [10, 100, 10, 100]
+
+                Button:
+                    text: "Novi"
+                    on_release:
+                        root.new([genre.text])
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, genre)
+
+                Button:
+                    text: "Obriši"
+                    on_release:
+                        root.deletion()
+                        Scroll.clear_widgets()
+                        root.lily(Scroll, genre)
+
+
+                Button:
+                    text: "Povratak"
+                    on_release:
+                        app.root.current = "menu"
+                        root.manager.transition.direction = "right"
+
+<yearly>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'yearly.jpg'
+    name: "yearly"
+
+    GridLayout:
+        cols: 4
+        on_kv_post: root.mem([Scroll2, Scroll3])
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            GridLayout:
+                cols: 1
+                rows: 3
+                Button:
+                    text: "Studio"
+                    on_release:
+                        Scroll1.clear_widgets()
+                        root.s_lily(Scroll1)
+                Button:
+                    text: "Žanrovi"
+                    on_release:
+                        Scroll1.clear_widgets()
+                        root.g_lily(Scroll1)
+                Button:
+                    text: "Godine"
+                    on_release:
+                        Scroll1.clear_widgets()
+                        root.y_lily(Scroll1)
+
+            BoxLayout:
+                id: Scroll1
+                orientation: 'vertical'
+                spacing: 0.01
+                cols: 1
+                on_kv_post:
+                    Scroll1.clear_widgets()
+                    root.s_lily(Scroll1)
+
+        BoxLayout:
+            id: Scroll2
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            #on_kv_post:
+            #    root.st_lily(Scroll2)
+
+        GridLayout:
+            cols: 1
+            rows: 3
+
+            Button:
+                text: "Dodaj u najdraže"
+
+
+            Button:
+                text: "Makni iz najdražih"
+
+            Button:
+                text: "Povratak"
+                on_release:
+                    app.root.current = "menu"
+                    root.manager.transition.direction = "right"
+
+        BoxLayout:
+            id: Scroll3
+            orientation: 'vertical'
+            spacing: 0.01
+            cols: 1
+            #on_kv_post: root.lily(Scroll3)
